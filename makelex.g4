@@ -9,9 +9,10 @@ ENDEF: 'endef';
 EQUAL: '=';
 TARGETSEP: ':';
 
-VARSEP: ':''=';
+VARSEP: ':=';
 
-PLUSEQUAL: '+' '=';
+PLUSEQUAL: '+=';
+ELEQUAL: '?=';
 ENDIF: 'endif';
 ELSE: 'else';
 IF: 'ifeq';
@@ -19,7 +20,9 @@ IFNEQ: 'ifneq';
 IFDEF: 'ifdef';
 LBRACE: '(';
 RBRACE: ')';
+PIPE: '|';
 VARTOKEN: '$';
 COMMA: ',';
-ID: ('_' | [a-zA-Z])+;
+STRING: '"' ~('"')* '"';
+ID: ('_' | '.' | '*' | [0-9] | [a-zA-Z])+;
 BODYLNSTART: '\t' ~('\t'| '\r' | '\n')+;

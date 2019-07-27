@@ -4,12 +4,13 @@ options { tokenVocab=makelex; }
 makeFile : (nonblocks)* EOF;
 
 nonblocks : directives | varDeclare | target | ifdefblock| defineBlock | ifblock;
-directives: export | unexport | includeDirective | vpath ;
+directives: export | unexport | includeDirective | vpath | overrideD ;
 
 includeDirective : DASH ? INCLUDE name+ ;
 export: EXPORT (name | varDeclare?);
 unexport : UNEXPORT name;
 vpath: VPATH name+;
+overrideD: OVERRIDE (name | varDeclare?);
 
 varDeclare: name PLUSEQUAL (name | qstring)+
 		  | name (EQUAL | VARSEP | ELEQUAL | VARNOT) (name | qstring);
@@ -21,9 +22,13 @@ orderPrequesites : name+;
 defineBlock: DEFINE name makeRule ENDEF;
 ifblock : ifimpl  elseimpl? ENDIF;
 ifimpl : (IF | IFNEQ)  condition (nonblocks)* ;
-condition : LBRACE name COMMA name? RBRACE;
+condition : LBRACE name COMMA name? RBRACE
+			| qstring qstring
+			| sqstring sqstring;
 elseimpl: ELSE nonblocks;
 ifdefblock : IFDEF name nonblocks ENDEF;
 name: VARTOKEN+  LBRACE  ID (COMMA name)* RBRACE | ID (SLASHES name)*; //deal with names, files, strings later
 qstring : STRING;
+sqstring : SSTRING;
+
 makeRule: BODYLNSTART+;

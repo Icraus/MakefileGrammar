@@ -7,12 +7,16 @@ DASH: '-';
 DEFINE: 'define';
 ENDEF: 'endef';
 EQUAL: '=';
-TARGETSEP: ':';
+TARGETSEP: ':' ':'?;
 
-VARSEP: ':=';
+VARSEP: ':' ':'? '=';
+VARNOT: '!=';
 
 PLUSEQUAL: '+=';
 ELEQUAL: '?=';
+EXPORT: 'export';
+UNEXPORT: 'unexport';
+VPATH: 'vpath';
 ENDIF: 'endif';
 ELSE: 'else';
 IF: 'ifeq';
@@ -24,5 +28,6 @@ PIPE: '|';
 VARTOKEN: '$';
 COMMA: ',';
 STRING: '"' ~('"')* '"';
-ID: ('_' | '.' | '*' | [0-9] | [a-zA-Z])+;
+ID: ('_' | '.' | '*' | '%' | [0-9] | [a-zA-Z])+;
+SLASHES: [\\/];
 BODYLNSTART: '\t' ~('\t'| '\r' | '\n')+;

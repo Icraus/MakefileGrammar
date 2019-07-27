@@ -12,10 +12,9 @@ unexport : UNEXPORT name;
 vpath: VPATH name+;
 overrideD: OVERRIDE (name | varDeclare?);
 
-varDeclare: name PLUSEQUAL (name | qstring)+
-		  | name (EQUAL | VARSEP | ELEQUAL | VARNOT) (name | qstring);
+varDeclare: name (PLUSEQUAL | EQUAL | VARSEP | ELEQUAL | VARNOT) (name | qstring)+;
 
-target: name+ TARGETSEP (prequesite)? (PIPE orderPrequesites)? makeRule ;
+target: name+ TARGETSEP (prequesite)? (PIPE orderPrequesites)? makeRule? ;
 
 prequesite: name+;
 orderPrequesites : name+;
@@ -27,7 +26,9 @@ condition : LBRACE name COMMA name? RBRACE
 			| sqstring sqstring;
 elseimpl: ELSE nonblocks;
 ifdefblock : IFDEF name nonblocks ENDEF;
-name: VARTOKEN+  LBRACE  ID (COMMA name)* RBRACE | ID (SLASHES name)*; //deal with names, files, strings later
+name: VARTOKEN+  LBRACE  ID (COMMA name)* RBRACE
+	|  ID (name)*; //deal with names, files, strings later
+
 qstring : STRING;
 sqstring : SSTRING;
 

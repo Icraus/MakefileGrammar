@@ -1,17 +1,18 @@
 lexer grammar makelex;
 COMMENT: '#' ~('\r' | '\n')* '\r'? '\n' -> skip;
 
-WS: [ \r\n] -> skip;
+WS: [ ]  -> skip;
+SKIPLI: '\\' '\r'? '\n' ('\t'|' ')* -> skip;
 INCLUDE: 'include';
-DASH: '-';
 DEFINE: 'define';
 ENDEF: 'endef';
 EQUAL: '=';
 TARGETSEP: ':' ':'?;
-
+NL: '\r'?'\n';
+TAB: '\t';
+SEMICOL: ';';
 VARSEP: ':' ':'? '=';
 VARNOT: '!=';
-
 PLUSEQUAL: '+=';
 ELEQUAL: '?=';
 EXPORT: 'export';
@@ -23,13 +24,14 @@ ELSE: 'else';
 IF: 'ifeq';
 IFNEQ: 'ifneq';
 IFDEF: 'ifdef';
+IFNDEF: 'ifndef';
 LBRACE: '(';
 RBRACE: ')';
 PIPE: '|';
-VARTOKEN: '$';
+VARTOKEN: '$'+;
 COMMA: ',';
 STRING: '"' ~('"')* '"';
 SSTRING: '\'' ~('\'')* '\'';
-ID: ('_' | [\\/] | '-' | '.' | '*' | '%' | [0-9] | [a-zA-Z])+;
-
-BODYLNSTART: '\t' ~('\t'| '\r' | '\n')+;
+DASH: '-';
+PLUS : '+';
+ID: ~(' '  | '(' | ')' | '$' | '\t' | '\r' | '\n' | '=' | '+' |',' | ';')+;
